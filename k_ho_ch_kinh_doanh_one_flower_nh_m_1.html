@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONE FLOWER — Kế Hoạch Kinh Doanh Cửa Hàng Hoa Đa Dạng | Nhóm 1</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts hỗ trợ tiếng Việt hoàn hảo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: {
+              50: '#FDFBF7',
+              100: '#FAF5EF',
+              200: '#F3EAE0',
+            },
+            pastelPink: {
+              50: '#FFF5F6',
+              100: '#FADADD',
+              200: '#F7CAC9',
+              300: '#E8A5B0',
+              400: '#D47A8A',
+            },
+            sage: {
+              50: '#F2F7F3',
+              100: '#E3EDE4',
+              200: '#C7DBC9',
+              300: '#A8C6B1',
+              600: '#4A6B58',
+              800: '#2C3531',
+            },
+            champagne: {
+              100: '#F9F1D8',
+              200: '#F3E5AB',
+              400: '#D4AF37',
+              500: '#C5A059',
+              600: '#A6823E',
+            },
+            charcoal: '#2C3531',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Be Vietnam Pro"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #FDFBF7;
+      color: #2C3531;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Custom Scrollbar tinh tế cho màn hình nhỏ hoặc nội dung dài */
+    .slide-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .slide-scroll::-webkit-scrollbar-track {
+      background: rgba(250, 218, 221, 0.2);
+    }
+    .slide-scroll::-webkit-scrollbar-thumb {
+      background: rgba(197, 160, 89, 0.45);
+      border-radius: 999px;
+    }
+
+    /* Hệ thống chuyển Slide mượt mà */
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(18px) scale(0.985);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  visibility 0.65s;
+      z-index: 1;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      z-index: 10;
+    }
+
+    /* Hiệu ứng xuất hiện từng phần tử bên trong slide đang active */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .slide.active .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.active .delay-1 { transition-delay: 0.08s; }
+    .slide.active .delay-2 { transition-delay: 0.16s; }
+    .slide.active .delay-3 { transition-delay: 0.24s; }
+    .slide.active .delay-4 { transition-delay: 0.32s; }
+    .slide.active .delay-5 { transition-delay: 0.40s; }
+    .slide.active .delay-6 { transition-delay: 0.48s; }
+    .slide.active .delay-7 { transition-delay: 0.56s; }
+
+    /* Hiệu ứng thẻ thông tin sang trọng */
+    .luxury-card {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      box-shadow: 0 10px 30px -10px rgba(44, 53, 49, 0.06);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.35s ease;
+    }
+
+    .luxury-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(212, 175, 55, 0.85);
+      box-shadow: 0 18px 36px -12px rgba(197, 160, 89, 0.22);
+    }
+
+    /* Hiệu ứng ảnh hoa phóng to nhẹ khi di chuột */
+    .floral-zoom-wrap {
+      overflow: hidden;
+    }
+    .floral-zoom-wrap img {
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .floral-zoom-wrap:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Khung vòm (Arch Frame) đặc trưng thương hiệu hoa cao cấp */
+    .arch-frame {
+      border-radius: 220px 220px 24px 24px;
+    }
+
+    /* Ánh kim Champagne text & gradient */
+    .champagne-gradient-text {
+      background: linear-gradient(135deg, #A6823E 0%, #D4AF37 45%, #8C6A2B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .champagne-glow {
+      text-shadow: 0 2px 24px rgba(212, 175, 55, 0.35);
+    }
+
+    /* Nền họa tiết cánh hoa mờ tinh tế */
+    .bg-botanical-radial {
+      background-image: 
+        radial-gradient(circle at 12% 18%, rgba(250, 218, 221, 0.45) 0%, transparent 42%),
+        radial-gradient(circle at 88% 82%, rgba(227, 237, 228, 0.55) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(243, 229, 171, 0.18) 0%, transparent 60%);
+    }
+
+    /* Parallax wrapper */
+    .parallax-layer {
+      transition: transform 0.18s ease-out;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body class="bg-cream-50 text-charcoal select-none">
+
+  <!-- Thanh tiến độ trình chiếu màu vàng champagne trên cùng -->
+  <div class="fixed top-0 left-0 right-0 h-1.5 bg-cream-200/80 z-50">
+    <div id="progressBar" class="h-full bg-gradient-to-r from-pastelPink-300 via-champagne-400 to-sage-600 transition-all duration-500 ease-out" style="width: 10%;"></div>
+  </div>
+
+  <!-- Canvas hiệu ứng cánh hoa rơi nhẹ nhàng -->
+  <canvas id="petalCanvas" class="fixed inset-0 pointer-events-none z-30"></canvas>
+
+  <!-- Header cố định tinh tế -->
+  <header class="fixed top-3 left-4 right-4 sm:left-8 sm:right-8 z-40 flex items-center justify-between pointer-events-none">
+    <!-- Logo nhỏ bên trái -->
+    <button onclick="goToSlide(0)" class="pointer-events-auto flex items-center gap-2.5 bg-white/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-champagne-400/30 shadow-sm hover:border-champagne-400 transition">
+      <span class="w-6 h-6 rounded-full bg-gradient-to-br from-pastelPink-200 to-champagne-200 flex items-center justify-center text-champagne-600">
+        <!-- SVG Bông hoa biểu tượng -->
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C13.8 4.8 15 6.8 15 9C15 10.66 13.66 12 12 12C10.34 12 9 10.66 9 9C9 6.8 10.2 4.8 12 2ZM12 22C10.2 19.2 9 17.2 9 15C9 13.34 10.34 12 12 12C13.66 12 15 13.34 15 15C15 17.2 13.8 19.2 12 22ZM2 12C4.8 10.2 6.8 9 9 9C10.66 9 12 10.34 12 12C12 13.66 10.66 15 9 15C6.8 15 4.8 13.8 2 12ZM22 12C19.2 13.8 17.2 15 15 15C13.34 15 12 13.66 12 12C12 10.34 13.34 9 15 9C17.2 9 19.2 10.2 22 12Z"/>
+        </svg>
+      </span>
+      <span class="font-serif font-bold tracking-wider text-sm sm:text-base text-charcoal">ONE FLOWER</span>
+      <span class="hidden md:inline-block text-[11px] font-medium px-2 py-0.5 rounded-full bg-sage-100 text-sage-600">Nhóm 1 • GDKT&PL 12</span>
+    </button>
+
+    <!-- Bộ công cụ bên phải: Bật/tắt cánh hoa, Mục lục, Toàn màn hình -->
+    <div class="pointer-events-auto flex items-center gap-2">
+      <button id="togglePetalsBtn" onclick="togglePetals()" title="Bật/Tắt hiệu ứng cánh hoa rơi" class="flex items-center gap-1.5 bg-white/85 backdrop-blur-md px-3 py-1.5 rounded-full border border-champagne-400/30 text-xs font-medium text-charcoal hover:border-champagne-400 transition shadow-sm">
+        <span id="petalStatusDot" class="w-2 h-2 rounded-full bg-pastelPink-400 animate-pulse"></span>
+        <span class="hidden sm:inline">Cánh hoa</span>
+      </button>
+
+      <button onclick="toggleDrawer()" title="Danh mục 10 trang thuyết trình" class="flex items-center gap-1.5 bg-white/85 backdrop-blur-md px-3 py-1.5 rounded-full border border-champagne-400/30 text-xs font-medium text-charcoal hover:border-champagne-400 transition shadow-sm">
+        <svg class="w-3.5 h-3.5 text-champagne-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
+        </svg>
+        <span class="hidden sm:inline">Mục lục</span>
+      </button>
+
+      <button onclick="toggleFullscreen()" title="Chế độ toàn màn hình (Fullscreen)" class="flex items-center justify-center w-8 h-8 bg-white/85 backdrop-blur-md rounded-full border border-champagne-400/30 text-charcoal hover:border-champagne-400 transition shadow-sm">
+        <svg class="w-3.5 h-3.5 text-sage-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Drawer Mục lục nhanh 10 Slide -->
+  <div id="tocDrawer" class="fixed inset-0 z-50 hidden">
+    <div onclick="toggleDrawer()" class="absolute inset-0 bg-charcoal/30 backdrop-blur-xs"></div>
+    <div class="absolute top-0 right-0 bottom-0 w-full max-w-sm bg-cream-50/95 backdrop-blur-xl border-l border-champagne-400/40 shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-champagne-400/30">
+          <div>
+            <p class="text-[11px] uppercase tracking-widest text-champagne-600 font-semibold">Điều hướng nhanh</p>
+            <h3 class="font-serif text-2xl font-bold text-charcoal">Mục Lục Thuyết Trình</h3>
+          </div>
+          <button onclick="toggleDrawer()" class="w-9 h-9 rounded-full bg-pastelPink-100/70 flex items-center justify-center text-charcoal hover:bg-pastelPink-200 transition">✕</button>
+        </div>
+        <div id="tocList" class="mt-4 space-y-2">
+          <!-- Render bằng JS -->
+        </div>
+      </div>
+      <div class="pt-4 mt-6 border-t border-champagne-400/20 text-xs text-sage-600 text-center">
+        Phím tắt: <kbd class="px-1.5 py-0.5 bg-white rounded border">←</kbd> <kbd class="px-1.5 py-0.5 bg-white rounded border">→</kbd> hoặc <kbd class="px-1.5 py-0.5 bg-white rounded border">Space</kbd>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- KHU VỰC TRÌNH CHIẾU 10 SLIDE                                          -->
+  <!-- ===================================================================== -->
+  <main id="presentationStage" class="relative w-full h-full bg-botanical-radial overflow-hidden">
+
+    <!-- ==================== SLIDE 1: TRANG BÌA ==================== -->
+    <section class="slide active" data-title="01. Trang bìa – ONE FLOWER">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-16 flex items-center">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          <!-- Cột nội dung bên trái -->
+          <div class="lg:col-span-7 space-y-5 sm:space-y-6 text-center lg:text-left">
+            <div class="reveal delay-1 inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 px-4 py-1.5 rounded-full bg-white/85 border border-champagne-400/40 shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-champagne-400"></span>
+              <span class="text-[11px] sm:text-xs font-semibold tracking-wider text-sage-600 uppercase">
+                Môn: Giáo dục kinh tế và pháp luật 12 • Kết nối tri thức với cuộc sống
+              </span>
+            </div>
+
+            <div class="reveal delay-2 space-y-1">
+              <p class="text-xs sm:text-sm font-semibold tracking-[0.28em] text-champagne-600 uppercase">
+                FLOWER SHOP · GROUP 1
+              </p>
+              <h1 class="font-serif text-5xl sm:text-7xl xl:text-8xl font-bold tracking-tight champagne-gradient-text leading-none">
+                ONE FLOWER
+              </h1>
+            </div>
+
+            <div class="reveal delay-3 space-y-2 pt-1">
+              <h2 class="font-serif text-2xl sm:text-4xl font-bold text-charcoal tracking-wide">
+                KẾ HOẠCH KINH DOANH
+              </h2>
+              <div class="inline-block px-4 py-1.5 rounded-2xl bg-pastelPink-100/75 border border-pastelPink-300/50">
+                <p class="text-base sm:text-xl font-semibold text-charcoal tracking-wide">
+                  CỬA HÀNG HOA ĐA DẠNG
+                </p>
+              </div>
+            </div>
+
+            <!-- Slogan nổi bật -->
+            <div class="reveal delay-4 pt-2">
+              <div class="luxury-card rounded-2xl p-4 sm:p-5 inline-block max-w-xl border-l-4 border-l-champagne-400">
+                <p class="font-serif italic text-xl sm:text-2xl font-semibold text-charcoal">
+                  “One Team, One Flower World.”
+                </p>
+                <p class="text-xs sm:text-sm text-sage-600 mt-1 font-medium">
+                  Thực hiện: <strong class="text-charcoal">Nhóm 1 – GDKT&PL 12</strong> • Một tập thể – Một thế giới hoa
+                </p>
+              </div>
+            </div>
+
+            <div class="reveal delay-5 pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+              <button onclick="nextSlide()" class="px-6 py-3 rounded-full bg-gradient-to-r from-charcoal to-sage-600 text-cream-50 font-medium text-sm shadow-lg hover:shadow-xl hover:scale-[1.02] transition flex items-center gap-2">
+                <span>Bắt đầu thuyết trình</span>
+                <svg class="w-4 h-4 text-champagne-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </button>
+              <button onclick="toggleDrawer()" class="px-5 py-3 rounded-full bg-white/85 border border-champagne-400/50 text-charcoal font-medium text-sm hover:bg-champagne-100/40 transition">
+                Xem 10 nội dung chính
+              </button>
+            </div>
+          </div>
+
+          <!-- Cột hình ảnh cửa hàng hoa sang trọng có hiệu ứng Parallax -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div id="heroParallax" class="parallax-layer reveal delay-3 relative w-full max-w-md">
+              <!-- Vòng hào quang vàng champagne phía sau -->
+              <div class="absolute -inset-3 arch-frame border-2 border-champagne-400/50 bg-gradient-to-b from-pastelPink-100/50 to-sage-100/50 rotate-2"></div>
+              
+              <!-- Khung ảnh vòm sang trọng -->
+              <div class="relative arch-frame overflow-hidden border-4 border-white shadow-2xl aspect-[4/5] bg-pastelPink-100 floral-zoom-wrap">
+                <img 
+                  src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=1200&q=80" 
+                  alt="Cửa hàng hoa sang trọng nhiều màu sắc ONE FLOWER"
+                  onerror="this.src='https://placehold.co/800x1000/FADADD/2C3531?text=ONE+FLOWER+BOUTIQUE'"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-charcoal/55 via-transparent to-transparent"></div>
+                <div class="absolute bottom-5 left-5 right-5 text-white">
+                  <span class="text-[11px] uppercase tracking-widest px-2.5 py-1 rounded-full bg-champagne-400/90 text-charcoal font-bold">Luxury Floral Concept</span>
+                  <p class="font-serif text-xl font-semibold mt-2">Đa dạng sắc hoa – Gửi trọn yêu thương</p>
+                </div>
+              </div>
+
+              <!-- Huy hiệu nổi trang trí -->
+              <div class="absolute -bottom-4 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl border border-champagne-400/50 shadow-xl">
+                <p class="text-[11px] uppercase tracking-wider text-sage-600 font-semibold">Danh mục đa dạng</p>
+                <p class="font-serif text-lg font-bold text-charcoal">Hoa tươi • Sáp • Lụa • Khô • Handmade</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 2: GIỚI THIỆU THƯƠNG HIỆU ==================== -->
+    <section class="slide" data-title="02. Giới thiệu thương hiệu ONE FLOWER">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-16 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <!-- Tiêu đề Slide -->
+          <div class="reveal delay-1 text-center max-w-3xl mx-auto mb-8">
+            <span class="text-xs font-bold tracking-[0.25em] uppercase text-champagne-600">Thông Tin Chung</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mt-1">
+              GIỚI THIỆU THƯƠNG HIỆU <span class="champagne-gradient-text">ONE FLOWER</span>
+            </h2>
+            <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-champagne-400 to-transparent mx-auto mt-3"></div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-center">
+            <!-- Cột trái: Ảnh nghệ thuật bó hoa -->
+            <div class="lg:col-span-5 reveal delay-2">
+              <div class="relative rounded-3xl overflow-hidden border-4 border-white shadow-xl aspect-[4/3] lg:aspect-[4/4.3] floral-zoom-wrap">
+                <img 
+                  src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1200&q=80" 
+                  alt="Bó hoa nghệ thuật thương hiệu ONE FLOWER"
+                  onerror="this.src='https://placehold.co/900x900/E3EDE4/2C3531?text=ONE+FLOWER+STORY'"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent"></div>
+                <div class="absolute bottom-5 left-5 right-5 text-white">
+                  <p class="font-serif italic text-2xl">“Một tập thể – Một thế giới hoa”</p>
+                  <p class="text-xs text-cream-100/90 mt-1">Sáng tạo bởi tập thể Nhóm 1 • Lớp 12</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cột phải: Nội dung chi tiết -->
+            <div class="lg:col-span-7 space-y-4">
+              <!-- Tên & Lĩnh vực -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 reveal delay-2">
+                <div class="luxury-card rounded-2xl p-5 bg-gradient-to-br from-white to-pastelPink-50/70">
+                  <div class="w-10 h-10 rounded-xl bg-pastelPink-100 text-pastelPink-400 flex items-center justify-center mb-3 font-serif font-bold text-xl">01</div>
+                  <p class="text-xs uppercase tracking-wider text-sage-600 font-semibold">Tên cửa hàng</p>
+                  <h3 class="font-serif text-2xl font-bold text-charcoal mt-0.5">ONE FLOWER</h3>
+                </div>
+
+                <div class="luxury-card rounded-2xl p-5 bg-gradient-to-br from-white to-sage-50/70">
+                  <div class="w-10 h-10 rounded-xl bg-sage-100 text-sage-600 flex items-center justify-center mb-3 font-serif font-bold text-xl">02</div>
+                  <p class="text-xs uppercase tracking-wider text-sage-600 font-semibold">Lĩnh vực kinh doanh</p>
+                  <p class="text-sm sm:text-base font-semibold text-charcoal mt-1 leading-snug">
+                    Kinh doanh các loại hoa và sản phẩm quà tặng từ hoa.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Ý nghĩa tên gọi ONE FLOWER -->
+              <div class="luxury-card rounded-3xl p-6 reveal delay-3">
+                <div class="flex items-center gap-2.5 mb-4">
+                  <span class="px-3 py-1 rounded-full bg-champagne-100 text-champagne-600 text-xs font-bold uppercase tracking-wider">Ý nghĩa tên gọi</span>
+                  <div class="h-px flex-1 bg-champagne-400/30"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div class="p-4 rounded-2xl bg-pastelPink-50/80 border border-pastelPink-200/60">
+                    <span class="font-serif text-3xl font-bold champagne-gradient-text">ONE</span>
+                    <p class="text-sm text-charcoal mt-1 leading-relaxed">
+                      Có nghĩa là <strong>số một</strong>, đại diện cho tinh thần tiên phong của <strong>Nhóm 1</strong>.
+                    </p>
+                  </div>
+                  <div class="p-4 rounded-2xl bg-sage-50/80 border border-sage-200/60">
+                    <span class="font-serif text-3xl font-bold text-sage-600">FLOWER</span>
+                    <p class="text-sm text-charcoal mt-1 leading-relaxed">
+                      Có nghĩa là <strong>hoa</strong>, thể hiện rõ nét lĩnh vực kinh doanh nghệ thuật và quà tặng.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-gradient-to-r from-champagne-100/50 via-white to-pastelPink-100/40 border border-champagne-400/40">
+                  <p class="text-sm sm:text-base text-charcoal leading-relaxed">
+                    <strong class="text-champagne-600">Ý nghĩa tổng thể:</strong> Tên gọi <strong>ONE FLOWER</strong> mang ý nghĩa một tập thể cùng đoàn kết, sáng tạo và xây dựng một thế giới hoa đa dạng, đầy màu sắc.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 3: BƯỚC 1 – Ý TƯỞNG KINH DOANH ==================== -->
+    <section class="slide" data-title="03. Bước 1: Xác định ý tưởng kinh doanh">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-14 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <div class="reveal delay-1 flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-2">
+            <div>
+              <span class="text-xs font-bold tracking-[0.22em] uppercase text-champagne-600">Quy trình lập kế hoạch • Bước 1</span>
+              <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal">
+                XÁC ĐỊNH Ý TƯỞNG KINH DOANH
+              </h2>
+            </div>
+            <p class="text-xs sm:text-sm text-sage-600 font-medium">Mô hình cửa hàng hoa đa chất liệu & quà tặng thiết kế</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <!-- Khối bên trái: 6 dòng sản phẩm hoa & quà tặng -->
+            <div class="lg:col-span-7 luxury-card rounded-3xl p-5 sm:p-6 reveal delay-2">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif text-2xl font-bold text-charcoal flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-pastelPink-400"></span>
+                  Danh Mục Sản Phẩm Kinh Doanh Đa Dạng
+                </h3>
+                <span class="text-xs px-2.5 py-1 rounded-full bg-pastelPink-100 text-charcoal font-semibold">5 dòng hoa + Quà tặng</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-3.5 rounded-2xl bg-pastelPink-50/75 border border-pastelPink-200/70 hover:bg-pastelPink-100/50 transition">
+                  <p class="font-bold text-sm text-charcoal">1. Hoa tươi</p>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-1">Hoa hồng, hoa hướng dương, hoa cúc, hoa tulip, hoa ly…</p>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-sage-50/75 border border-sage-200/70 hover:bg-sage-100/50 transition">
+                  <p class="font-bold text-sm text-charcoal">2. Hoa giả</p>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-1">Hoa lụa, hoa nhựa, hoa vải tinh tế, bền đẹp theo thời gian…</p>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-champagne-100/45 border border-champagne-400/35 hover:bg-champagne-100/70 transition">
+                  <p class="font-bold text-sm text-charcoal">3. Hoa sáp</p>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-1">Hoa hồng sáp thơm và các loại hoa sáp nhiều màu sắc.</p>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-cream-100 border border-champagne-400/30 hover:bg-cream-200/60 transition">
+                  <p class="font-bold text-sm text-charcoal">4. Hoa khô</p>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-1">Hoa baby khô, hoa lavender và các loại hoa khô trang trí.</p>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-pastelPink-50/75 border border-pastelPink-200/70 hover:bg-pastelPink-100/50 transition">
+                  <p class="font-bold text-sm text-charcoal">5. Hoa handmade</p>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-1">Hoa len, hoa kẽm nhung, hoa giấy thủ công tỉ mỉ…</p>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-gradient-to-br from-pastelPink-100/70 to-champagne-100/70 border border-champagne-400/50">
+                  <p class="font-bold text-sm text-charcoal">6. Sản phẩm kết hợp</p>
+                  <p class="text-xs sm:text-sm text-charcoal/90 mt-1">Bó hoa, giỏ hoa, hộp hoa, lẵng hoa và quà tặng theo yêu cầu.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Khối bên phải: Khách hàng, Nhu cầu, Nguồn cung & Điểm độc đáo -->
+            <div class="lg:col-span-5 space-y-3.5 reveal delay-3">
+              <div class="luxury-card rounded-2xl p-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-sage-600">Khách hàng mục tiêu</h4>
+                <p class="text-xs sm:text-sm text-charcoal mt-1 leading-relaxed">
+                  <strong>Học sinh, sinh viên, người đi làm, các cặp đôi, gia đình</strong> và những người có nhu cầu mua hoa để tặng hoặc trang trí.
+                </p>
+              </div>
+
+              <div class="luxury-card rounded-2xl p-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-pastelPink-400">Nhu cầu & Cách thức đáp ứng</h4>
+                <p class="text-xs sm:text-sm text-charcoal mt-1 leading-relaxed">
+                  Tìm mua hoa đẹp, đa dạng kiểu dáng, màu sắc và giá cả cho sinh nhật, lễ, Tết, kỉ niệm, trang trí. <strong>Đáp ứng:</strong> Cung cấp đa dạng hoa, nhận bó theo yêu cầu, tư vấn phù hợp mục đích và tài chính.
+                </p>
+              </div>
+
+              <div class="luxury-card rounded-2xl p-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-sage-600">Nguồn cung cấp</h4>
+                <p class="text-xs sm:text-sm text-charcoal mt-1 leading-relaxed">
+                  Nhập <strong>hoa tươi</strong> từ các nhà vườn, chợ đầu mối; nhập <strong>hoa giả, hoa sáp, hoa khô và nguyên liệu handmade</strong> từ các cơ sở sản xuất, nhà cung cấp uy tín.
+                </p>
+              </div>
+
+              <div class="luxury-card rounded-2xl p-4 bg-gradient-to-r from-champagne-100/60 to-pastelPink-50/80 border-champagne-400/60">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-champagne-600">Điểm độc đáo của ONE FLOWER</h4>
+                <p class="text-xs sm:text-sm text-charcoal mt-1 leading-relaxed">
+                  Kinh doanh <strong>nhiều loại hoa trong cùng một cửa hàng</strong> giúp dễ lựa chọn; nhiều mức giá từ bình dân đến cao cấp, nhận thiết kế bó hoa theo sở thích và ngân sách riêng.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 4: BƯỚC 2 – MỤC TIÊU KINH DOANH ==================== -->
+    <section class="slide" data-title="04. Bước 2: Xác định mục tiêu kinh doanh">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-16 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <div class="reveal delay-1 text-center max-w-3xl mx-auto mb-8">
+            <span class="text-xs font-bold tracking-[0.22em] uppercase text-champagne-600">Quy trình lập kế hoạch • Bước 2</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mt-1">
+              XÁC ĐỊNH MỤC TIÊU KINH DOANH
+            </h2>
+            <p class="text-xs sm:text-sm text-sage-600 mt-2">Lộ trình phát triển bền vững qua 3 giai đoạn chiến lược</p>
+          </div>
+
+          <!-- Timeline 3 cột sang trọng -->
+          <div class="relative">
+            <!-- Đường nối ngang vàng champagne trên desktop -->
+            <div class="hidden lg:block absolute top-12 left-16 right-16 h-0.5 bg-gradient-to-r from-pastelPink-300 via-champagne-400 to-sage-600"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              
+              <!-- Mục tiêu ngắn hạn -->
+              <div class="luxury-card rounded-3xl p-6 relative reveal delay-2 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="w-12 h-12 rounded-2xl bg-pastelPink-100 border-2 border-white shadow-md flex items-center justify-center font-serif text-xl font-bold text-charcoal z-10">01</span>
+                    <span class="px-3.5 py-1 rounded-full bg-pastelPink-100/80 text-charcoal text-xs font-bold">
+                      <span class="count-up" data-target="1">1</span>–<span class="count-up" data-target="6">6</span> tháng
+                    </span>
+                  </div>
+                  <h3 class="font-serif text-2xl font-bold text-charcoal">Mục Tiêu Ngắn Hạn</h3>
+                  
+                  <!-- KPI nổi bật -->
+                  <div class="my-4 p-3.5 rounded-2xl bg-gradient-to-r from-pastelPink-100/70 to-champagne-100/50 border border-champagne-400/40 text-center">
+                    <p class="text-xs text-sage-600 font-semibold uppercase">Chỉ tiêu đơn hàng</p>
+                    <p class="font-serif text-3xl font-bold text-charcoal mt-0.5">
+                      <span class="count-up" data-target="5">5</span>–<span class="count-up" data-target="10">10</span> <span class="text-lg font-sans font-semibold">đơn hàng / ngày</span>
+                    </p>
+                  </div>
+
+                  <ul class="space-y-2.5 text-sm text-charcoal/90">
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Hoàn thiện cửa hàng và đưa sản phẩm ra thị trường.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Thu hút khách hàng trong khu vực và trên mạng xã hội.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Đạt trung bình <strong>5–10 đơn hàng mỗi ngày</strong>.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Xây dựng uy tín thông qua chất lượng sản phẩm và dịch vụ tốt.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Mục tiêu trung hạn -->
+              <div class="luxury-card rounded-3xl p-6 relative reveal delay-3 flex flex-col justify-between border-champagne-400/60">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="w-12 h-12 rounded-2xl bg-champagne-200 border-2 border-white shadow-md flex items-center justify-center font-serif text-xl font-bold text-charcoal z-10">02</span>
+                    <span class="px-3.5 py-1 rounded-full bg-champagne-100 text-champagne-600 text-xs font-bold">
+                      <span class="count-up" data-target="6">6</span> tháng – <span class="count-up" data-target="1">1</span> năm
+                    </span>
+                  </div>
+                  <h3 class="font-serif text-2xl font-bold text-charcoal">Mục Tiêu Trung Hạn</h3>
+
+                  <div class="my-4 p-3.5 rounded-2xl bg-champagne-100/50 border border-champagne-400/40 text-center">
+                    <p class="text-xs text-champagne-600 font-semibold uppercase">Trọng tâm tăng trưởng</p>
+                    <p class="font-serif text-2xl font-bold text-charcoal mt-0.5">Mở rộng & Khách hàng thân thiết</p>
+                  </div>
+
+                  <ul class="space-y-2.5 text-sm text-charcoal/90">
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Tăng doanh thu và mở rộng lượng khách hàng.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Phát triển thêm nhiều mẫu hoa mới, độc đáo.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Nhận đặt hoa cho các dịp sinh nhật, lễ, Tết và sự kiện.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-champagne-600 font-bold mt-0.5">✦</span>
+                      <span>Xây dựng lượng khách hàng thân thiết.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Mục tiêu dài hạn -->
+              <div class="luxury-card rounded-3xl p-6 relative reveal delay-4 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="w-12 h-12 rounded-2xl bg-sage-200 border-2 border-white shadow-md flex items-center justify-center font-serif text-xl font-bold text-charcoal z-10">03</span>
+                    <span class="px-3.5 py-1 rounded-full bg-sage-100 text-sage-600 text-xs font-bold">
+                      <span class="count-up" data-target="2">2</span>–<span class="count-up" data-target="5">5</span> năm
+                    </span>
+                  </div>
+                  <h3 class="font-serif text-2xl font-bold text-charcoal">Mục Tiêu Dài Hạn</h3>
+
+                  <div class="my-4 p-3.5 rounded-2xl bg-sage-100/70 border border-sage-300/50 text-center">
+                    <p class="text-xs text-sage-600 font-semibold uppercase">Tầm nhìn thương hiệu</p>
+                    <p class="font-serif text-2xl font-bold text-charcoal mt-0.5">Định vị ONE FLOWER</p>
+                  </div>
+
+                  <ul class="space-y-2.5 text-sm text-charcoal/90">
+                    <li class="flex items-start gap-2">
+                      <span class="text-sage-600 font-bold mt-0.5">✦</span>
+                      <span>Xây dựng thương hiệu <strong>ONE FLOWER</strong> được nhiều người biết đến.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-sage-600 font-bold mt-0.5">✦</span>
+                      <span>Mở rộng quy mô cửa hàng và dịch vụ giao hoa.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-sage-600 font-bold mt-0.5">✦</span>
+                      <span>Phát triển thêm các sản phẩm quà tặng kết hợp với hoa.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                      <span class="text-sage-600 font-bold mt-0.5">✦</span>
+                      <span>Duy trì hoạt động kinh doanh ổn định và tăng lợi nhuận.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 5: BƯỚC 3 – PHÂN TÍCH ĐIỀU KIỆN THỰC HIỆN ==================== -->
+    <section class="slide" data-title="05. Bước 3: Phân tích các điều kiện thực hiện">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-14 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <div class="reveal delay-1 text-center mb-6">
+            <span class="text-xs font-bold tracking-[0.22em] uppercase text-champagne-600">Quy trình lập kế hoạch • Bước 3</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mt-1">
+              PHÂN TÍCH CÁC ĐIỀU KIỆN THỰC HIỆN
+            </h2>
+          </div>
+
+          <!-- Infographic 7 yếu tố -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-stretch">
+            
+            <!-- 1. Sản phẩm -->
+            <div class="lg:col-span-4 luxury-card rounded-2xl p-4 reveal delay-1">
+              <div class="flex items-center gap-2.5 mb-2">
+                <span class="w-8 h-8 rounded-xl bg-pastelPink-100 text-charcoal font-bold text-xs flex items-center justify-center">01</span>
+                <h3 class="font-serif text-xl font-bold text-charcoal">Về sản phẩm</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Các loại hoa có sự đa dạng về chất liệu, màu sắc và kiểu dáng, đáp ứng nhu cầu tặng quà, trang trí và sử dụng trong các dịp đặc biệt.
+              </p>
+            </div>
+
+            <!-- 2. Thị trường -->
+            <div class="lg:col-span-4 luxury-card rounded-2xl p-4 reveal delay-2">
+              <div class="flex items-center gap-2.5 mb-2">
+                <span class="w-8 h-8 rounded-xl bg-sage-100 text-sage-600 font-bold text-xs flex items-center justify-center">02</span>
+                <h3 class="font-serif text-xl font-bold text-charcoal">Về thị trường</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Nhu cầu mua hoa xuất hiện quanh năm, đặc biệt tăng vào các dịp lễ, Tết, sinh nhật, ngày kỉ niệm và các sự kiện.
+              </p>
+            </div>
+
+            <!-- 3. Khách hàng -->
+            <div class="lg:col-span-4 luxury-card rounded-2xl p-4 reveal delay-3">
+              <div class="flex items-center gap-2.5 mb-2">
+                <span class="w-8 h-8 rounded-xl bg-champagne-100 text-champagne-600 font-bold text-xs flex items-center justify-center">03</span>
+                <h3 class="font-serif text-xl font-bold text-charcoal">Về khách hàng</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Cửa hàng hướng đến nhiều nhóm khách hàng khác nhau, từ học sinh, sinh viên đến người đi làm và các gia đình.
+              </p>
+            </div>
+
+            <!-- 5. Nguồn vốn (Thẻ trung tâm nổi bật) -->
+            <div class="md:col-span-2 lg:col-span-6 luxury-card rounded-3xl p-5 bg-gradient-to-br from-champagne-100/75 via-white to-pastelPink-100/60 border-champagne-400/70 reveal delay-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-9 h-9 rounded-xl bg-champagne-400 text-white font-bold text-xs flex items-center justify-center shadow-xs">05</span>
+                  <h3 class="font-serif text-2xl font-bold text-charcoal">Về nguồn vốn dự kiến</h3>
+                </div>
+                <span class="font-serif text-2xl sm:text-3xl font-bold champagne-gradient-text">
+                  <span class="count-up" data-target="30">30</span>–<span class="count-up" data-target="40">40</span> triệu đồng
+                </span>
+              </div>
+              <p class="text-xs sm:text-sm text-charcoal leading-relaxed">
+                Dự kiến cần khoảng <strong>30–40 triệu đồng</strong> để thuê mặt bằng nhỏ, nhập các loại hoa, mua dụng cụ cắm hoa, giấy gói, ruy băng, kệ trưng bày và trang trí cửa hàng.
+              </p>
+            </div>
+
+            <!-- 4. Đối thủ cạnh tranh -->
+            <div class="md:col-span-2 lg:col-span-6 luxury-card rounded-3xl p-5 reveal delay-4">
+              <div class="flex items-center gap-2.5 mb-2">
+                <span class="w-9 h-9 rounded-xl bg-pastelPink-200/70 text-charcoal font-bold text-xs flex items-center justify-center">04</span>
+                <h3 class="font-serif text-2xl font-bold text-charcoal">Về đối thủ cạnh tranh</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-charcoal leading-relaxed">
+                Có nhiều cửa hàng hoa trên thị trường. Vì vậy, <strong>ONE FLOWER</strong> cần tạo sự khác biệt bằng cách kinh doanh nhiều dòng hoa, có mẫu mã đẹp và giá cả hợp lí.
+              </p>
+            </div>
+
+            <!-- 6. Nhân lực -->
+            <div class="lg:col-span-6 luxury-card rounded-2xl p-4 reveal delay-5">
+              <div class="flex items-center gap-2.5 mb-2">
+                <span class="w-8 h-8 rounded-xl bg-sage-200 text-charcoal font-bold text-xs flex items-center justify-center">06</span>
+                <h3 class="font-serif text-xl font-bold text-charcoal">Về nhân lực</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Cần người có khả năng cắm, bó và phối hoa; nhân viên tư vấn, bán hàng và người quản lí hoạt động kinh doanh.
+              </p>
+            </div>
+
+            <!-- 7. Cơ sở vật chất và công nghệ -->
+            <div class="lg:col-span-6 luxury-card rounded-2xl p-4 reveal delay-6">
+              <div class="flex items-center gap-2.5 mb-2">
+                <span class="w-8 h-8 rounded-xl bg-pastelPink-100 text-charcoal font-bold text-xs flex items-center justify-center">07</span>
+                <h3 class="font-serif text-xl font-bold text-charcoal">Cơ sở vật chất & công nghệ</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Cần có kệ trưng bày, bình hoa, dụng cụ cắm hoa, thiết bị bảo quản hoa tươi, điện thoại và mạng xã hội để quảng bá, nhận đơn hàng.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 6: BƯỚC 4 – CHIẾN LƯỢC KINH DOANH ==================== -->
+    <section class="slide" data-title="06. Bước 4: Xác định chiến lược kinh doanh">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-14 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <div class="reveal delay-1 text-center mb-6">
+            <span class="text-xs font-bold tracking-[0.22em] uppercase text-champagne-600">Quy trình lập kế hoạch • Bước 4</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mt-1">
+              XÁC ĐỊNH CHIẾN LƯỢC KINH DOANH
+            </h2>
+            <p class="text-xs sm:text-sm text-sage-600 mt-1">Hệ thống 7 chiến lược vận hành toàn diện của ONE FLOWER</p>
+          </div>
+
+          <!-- 7 thẻ chiến lược bố trí cân đối 4 trên + 3 dưới -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            <!-- 1. Sản phẩm -->
+            <div class="luxury-card rounded-2xl p-4 reveal delay-1">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-pastelPink-100 text-charcoal">01 • Sản phẩm</span>
+              <h3 class="font-serif text-xl font-bold text-charcoal mt-2 mb-1.5">Chiến lược sản phẩm</h3>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Kinh doanh đầy đủ hoa tươi, hoa giả, hoa sáp, hoa khô và hoa handmade. Thường xuyên cập nhật mẫu mã, nhận thiết kế bó hoa, giỏ hoa và hộp hoa theo yêu cầu.
+              </p>
+            </div>
+
+            <!-- 2. Bán hàng -->
+            <div class="luxury-card rounded-2xl p-4 reveal delay-2">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sage-100 text-sage-600">02 • Bán hàng</span>
+              <h3 class="font-serif text-xl font-bold text-charcoal mt-2 mb-1.5">Chiến lược bán hàng</h3>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Kết hợp bán trực tiếp tại cửa hàng với bán hàng trực tuyến qua Facebook, TikTok, Zalo. Nhận đặt hoa trước và hỗ trợ giao hàng tận nơi.
+              </p>
+            </div>
+
+            <!-- 3. Tiếp thị -->
+            <div class="luxury-card rounded-2xl p-4 reveal delay-3">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-champagne-100 text-champagne-600">03 • Tiếp thị</span>
+              <h3 class="font-serif text-xl font-bold text-charcoal mt-2 mb-1.5">Chiến lược tiếp thị</h3>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Đăng hình ảnh, video giới thiệu các mẫu hoa đẹp, cách bó hoa và sản phẩm mới. Tổ chức chương trình khuyến mãi vào những dịp lễ, Tết để thu hút khách hàng.
+              </p>
+            </div>
+
+            <!-- 4. Giá cả -->
+            <div class="luxury-card rounded-2xl p-4 reveal delay-4 bg-gradient-to-b from-white to-champagne-100/40">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-champagne-200 text-charcoal">04 • Giá cả</span>
+              <h3 class="font-serif text-xl font-bold text-charcoal mt-2 mb-1.5">Chiến lược giá cả</h3>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed mb-2.5">
+                Xây dựng nhiều mức giá phù hợp với từng đối tượng khách hàng (từ 30.000 đến 500.000 đồng).
+              </p>
+              <button onclick="nextSlide()" class="text-xs font-semibold text-champagne-600 hover:underline flex items-center gap-1">
+                <span>Xem chi tiết bảng giá →</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- 5. Tài chính -->
+            <div class="luxury-card rounded-2xl p-4 reveal delay-5">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-sage-100 text-sage-600">05 • Tài chính</span>
+              <h3 class="font-serif text-xl font-bold text-charcoal mt-2 mb-1.5">Chiến lược tài chính</h3>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Sử dụng vốn hợp lí, theo dõi doanh thu, chi phí và lợi nhuận. Nhập hoa tươi với số lượng phù hợp để hạn chế hư hỏng, tránh tồn kho và thất thoát.
+              </p>
+            </div>
+
+            <!-- 6. Nhân sự -->
+            <div class="luxury-card rounded-2xl p-4 reveal delay-6">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-pastelPink-100 text-charcoal">06 • Nhân sự</span>
+              <h3 class="font-serif text-xl font-bold text-charcoal mt-2 mb-1.5">Chiến lược nhân sự</h3>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Phân công nhiệm vụ cụ thể cho nhân viên nhập hàng, bảo quản hoa, cắm hoa, bán hàng, tư vấn và giao hàng.
+              </p>
+            </div>
+
+            <!-- 7. Quản lí -->
+            <div class="luxury-card rounded-2xl p-4 reveal delay-7">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-champagne-100 text-champagne-600">07 • Quản lí</span>
+              <h3 class="font-serif text-xl font-bold text-charcoal mt-2 mb-1.5">Chiến lược quản lí</h3>
+              <p class="text-xs sm:text-sm text-charcoal/90 leading-relaxed">
+                Quản lí số lượng hàng hóa, kiểm tra chất lượng hoa, theo dõi đơn hàng và tiếp nhận ý kiến khách hàng để nâng cao chất lượng phục vụ.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 7: BẢNG GIÁ SẢN PHẨM ==================== -->
+    <section class="slide" data-title="07. Bảng giá sản phẩm dự kiến">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-14 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <div class="reveal delay-1 text-center mb-7">
+            <span class="text-xs font-bold tracking-[0.22em] uppercase text-champagne-600">Chiến lược giá cả • Menu Lookbook</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mt-1">
+              BẢNG GIÁ SẢN PHẨM DỰ KIẾN
+            </h2>
+            <p class="text-xs sm:text-sm text-sage-600 mt-1">Phân khúc giá linh hoạt từ bình dân đến quà tặng cao cấp</p>
+          </div>
+
+          <!-- 5 thẻ sản phẩm bảng giá -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            
+            <!-- 1. Hoa mini -->
+            <div class="luxury-card rounded-3xl overflow-hidden flex flex-col reveal delay-1">
+              <div class="h-36 floral-zoom-wrap relative">
+                <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=800&q=80" alt="Hoa mini" onerror="this.src='https://placehold.co/600x400/FADADD/2C3531?text=Hoa+Mini'" class="w-full h-full object-cover" />
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-white/90 text-[11px] font-bold text-charcoal">Phổ thông</span>
+              </div>
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-serif text-xl font-bold text-charcoal">Hoa mini</h3>
+                  <p class="text-xs text-sage-600 mt-1">Nhỏ xinh, tinh tế, phù hợp học sinh, sinh viên làm quà tặng.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-champagne-400/30">
+                  <p class="text-[11px] uppercase text-champagne-600 font-semibold">Giá dự kiến</p>
+                  <p class="font-serif text-xl font-bold text-charcoal">
+                    <span class="count-up-price" data-target="30">30</span>.000–<span class="count-up-price" data-target="50">50</span>.000đ
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Bó hoa sáp, hoa giả -->
+            <div class="luxury-card rounded-3xl overflow-hidden flex flex-col reveal delay-2">
+              <div class="h-36 floral-zoom-wrap relative">
+                <img src="https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=800&q=80" alt="Bó hoa sáp, hoa giả" onerror="this.src='https://placehold.co/600x400/E3EDE4/2C3531?text=Hoa+Sap+Hoa+Gia'" class="w-full h-full object-cover" />
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-white/90 text-[11px] font-bold text-sage-600">Lưu giữ lâu</span>
+              </div>
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-serif text-xl font-bold text-charcoal">Bó hoa sáp, hoa giả</h3>
+                  <p class="text-xs text-sage-600 mt-1">Hương thơm dịu nhẹ, hoa lụa bền đẹp, màu sắc phong phú.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-champagne-400/30">
+                  <p class="text-[11px] uppercase text-champagne-600 font-semibold">Giá dự kiến</p>
+                  <p class="font-serif text-xl font-bold text-charcoal">
+                    <span class="count-up-price" data-target="50">50</span>.000–<span class="count-up-price" data-target="150">150</span>.000đ
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Bó hoa handmade -->
+            <div class="luxury-card rounded-3xl overflow-hidden flex flex-col reveal delay-3">
+              <div class="h-36 floral-zoom-wrap relative">
+                <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=80" alt="Bó hoa handmade" onerror="this.src='https://placehold.co/600x400/F3E5AB/2C3531?text=Hoa+Handmade'" class="w-full h-full object-cover" />
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-white/90 text-[11px] font-bold text-champagne-600">Độc đáo</span>
+              </div>
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-serif text-xl font-bold text-charcoal">Bó hoa handmade</h3>
+                  <p class="text-xs text-sage-600 mt-1">Hoa len, hoa kẽm nhung, hoa giấy thủ công mang dấu ấn riêng.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-champagne-400/30">
+                  <p class="text-[11px] uppercase text-champagne-600 font-semibold">Giá dự kiến</p>
+                  <p class="font-serif text-xl font-bold text-charcoal">
+                    <span class="count-up-price" data-target="50">50</span>.000–<span class="count-up-price" data-target="180">180</span>.000đ
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Bó hoa tươi -->
+            <div class="luxury-card rounded-3xl overflow-hidden flex flex-col reveal delay-4">
+              <div class="h-36 floral-zoom-wrap relative">
+                <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80" alt="Bó hoa tươi" onerror="this.src='https://placehold.co/600x400/FADADD/2C3531?text=Bo+Hoa+Tuoi'" class="w-full h-full object-cover" />
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-pastelPink-100 text-[11px] font-bold text-charcoal">Bán chạy</span>
+              </div>
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-serif text-xl font-bold text-charcoal">Bó hoa tươi</h3>
+                  <p class="text-xs text-sage-600 mt-1">Hoa hồng, hướng dương, tulip, cúc, ly nhập mới mỗi ngày.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-champagne-400/30">
+                  <p class="text-[11px] uppercase text-champagne-600 font-semibold">Giá dự kiến</p>
+                  <p class="font-serif text-xl font-bold text-charcoal">
+                    <span class="count-up-price" data-target="70">70</span>.000–<span class="count-up-price" data-target="200">200</span>.000đ
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Giỏ hoa, hộp hoa -->
+            <div class="luxury-card rounded-3xl overflow-hidden flex flex-col reveal delay-5 border-champagne-400/70 bg-gradient-to-b from-white to-champagne-100/40">
+              <div class="h-36 floral-zoom-wrap relative">
+                <img src="https://images.unsplash.com/photo-1562690868-60bbe7293e94?auto=format&fit=crop&w=800&q=80" alt="Giỏ hoa, hộp hoa cao cấp" onerror="this.src='https://placehold.co/600x400/F3E5AB/2C3531?text=Gio+Hoa+Hop+Hoa'" class="w-full h-full object-cover" />
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-champagne-400 text-[11px] font-bold text-white">Cao cấp</span>
+              </div>
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-serif text-xl font-bold text-charcoal">Giỏ hoa, hộp hoa</h3>
+                  <p class="text-xs text-sage-600 mt-1">Thiết kế sang trọng cho dịp lễ, sự kiện, chúc mừng và kỉ niệm.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-champagne-400/40">
+                  <p class="text-[11px] uppercase text-champagne-600 font-semibold">Giá dự kiến</p>
+                  <p class="font-serif text-xl font-bold champagne-gradient-text">
+                    <span class="count-up-price" data-target="150">150</span>.000–<span class="count-up-price" data-target="500">500</span>.000đ
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <p class="reveal delay-6 text-center text-xs text-sage-600 italic mt-5">
+            * Lưu ý: Vốn, giá bán và số lượng đơn hàng là số liệu dự kiến phục vụ bài lập kế hoạch kinh doanh; khi triển khai thực tế cần khảo sát và điều chỉnh.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 8: BƯỚC 5 (PHẦN 1) – CƠ HỘI KINH DOANH ==================== -->
+    <section class="slide" data-title="08. Bước 5: Đánh giá cơ hội kinh doanh">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-16 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Cột trái: Tiêu đề & Ảnh nghệ thuật -->
+            <div class="lg:col-span-5 space-y-5 reveal delay-1">
+              <div>
+                <span class="text-xs font-bold tracking-[0.22em] uppercase text-champagne-600">Quy trình lập kế hoạch • Bước 5</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mt-1 leading-tight">
+                  ĐÁNH GIÁ CƠ HỘI KINH DOANH
+                </h2>
+                <p class="text-sm text-sage-600 mt-2">
+                  Những lợi thế thị trường vững chắc giúp ONE FLOWER phát triển bền vững.
+                </p>
+              </div>
+
+              <div class="rounded-3xl overflow-hidden border-4 border-white shadow-xl aspect-[16/11] floral-zoom-wrap">
+                <img 
+                  src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80" 
+                  alt="Không gian hoa tinh tế"
+                  onerror="this.src='https://placehold.co/800x600/E3EDE4/2C3531?text=OPPORTUNITIES'"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
+            <!-- Cột phải: 5 Cơ hội vàng -->
+            <div class="lg:col-span-7 space-y-3.5">
+              <div class="luxury-card rounded-2xl p-4 flex items-start gap-4 reveal delay-1">
+                <span class="font-serif text-2xl font-bold champagne-gradient-text shrink-0">01</span>
+                <div>
+                  <h3 class="font-bold text-sm sm:text-base text-charcoal">Nhu cầu sử dụng quanh năm</h3>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-0.5">Hoa là sản phẩm có nhu cầu sử dụng trong nhiều dịp khác nhau (sinh nhật, lễ, Tết, kỉ niệm, trang trí).</p>
+                </div>
+              </div>
+
+              <div class="luxury-card rounded-2xl p-4 flex items-start gap-4 reveal delay-2">
+                <span class="font-serif text-2xl font-bold champagne-gradient-text shrink-0">02</span>
+                <div>
+                  <h3 class="font-bold text-sm sm:text-base text-charcoal">Phục vụ nhiều nhóm khách hàng</h3>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-0.5">Có thể phục vụ nhiều đối tượng khách hàng với nhu cầu và mức chi tiêu khác nhau.</p>
+                </div>
+              </div>
+
+              <div class="luxury-card rounded-2xl p-4 flex items-start gap-4 reveal delay-3">
+                <span class="font-serif text-2xl font-bold champagne-gradient-text shrink-0">03</span>
+                <div>
+                  <h3 class="font-bold text-sm sm:text-base text-charcoal">Sản phẩm đa dạng, dễ sáng tạo</h3>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-0.5">Sản phẩm đa dạng, dễ sáng tạo và kết hợp thành những món quà độc đáo.</p>
+                </div>
+              </div>
+
+              <div class="luxury-card rounded-2xl p-4 flex items-start gap-4 reveal delay-4">
+                <span class="font-serif text-2xl font-bold champagne-gradient-text shrink-0">04</span>
+                <div>
+                  <h3 class="font-bold text-sm sm:text-base text-charcoal">Mở rộng kinh doanh trực tuyến</h3>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-0.5">Có thể mở rộng kinh doanh qua mạng xã hội và dịch vụ giao hoa tận nơi.</p>
+                </div>
+              </div>
+
+              <div class="luxury-card rounded-2xl p-4 flex items-start gap-4 reveal delay-5 bg-gradient-to-r from-sage-50 to-champagne-100/40">
+                <span class="font-serif text-2xl font-bold champagne-gradient-text shrink-0">05</span>
+                <div>
+                  <h3 class="font-bold text-sm sm:text-base text-charcoal">Bảo quản lâu, đa dạng nguồn doanh thu</h3>
+                  <p class="text-xs sm:text-sm text-charcoal/85 mt-0.5">Hoa giả, hoa sáp và hoa handmade có thể bảo quản lâu, giúp đa dạng hóa nguồn doanh thu.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 9: BƯỚC 5 (PHẦN 2) – RỦI RO & BIỆN PHÁP ==================== -->
+    <section class="slide" data-title="09. Bước 5: Rủi ro và biện pháp xử lí">
+      <div class="w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 lg:px-14 flex items-center">
+        <div class="max-w-7xl mx-auto w-full">
+          <div class="reveal delay-1 text-center mb-6">
+            <span class="text-xs font-bold tracking-[0.22em] uppercase text-champagne-600">Quy trình lập kế hoạch • Bước 5 (Tiếp theo)</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mt-1">
+              RỦI RO VÀ BIỆN PHÁP XỬ LÍ
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Cột 1: Rủi ro có thể gặp phải -->
+            <div class="luxury-card rounded-3xl p-5 sm:p-6 bg-gradient-to-b from-pastelPink-50/90 to-white border-pastelPink-300/70 reveal delay-2">
+              <div class="flex items-center gap-3 pb-3 mb-4 border-b border-pastelPink-200">
+                <span class="w-10 h-10 rounded-2xl bg-pastelPink-200/80 text-charcoal flex items-center justify-center font-bold">!</span>
+                <div>
+                  <p class="text-[11px] uppercase tracking-wider text-pastelPink-400 font-bold">Nhận diện thách thức</p>
+                  <h3 class="font-serif text-2xl font-bold text-charcoal">Rủi Ro Có Thể Gặp Phải</h3>
+                </div>
+              </div>
+
+              <ul class="space-y-3 text-xs sm:text-sm text-charcoal">
+                <li class="p-3 rounded-xl bg-white/85 border border-pastelPink-200/60 flex items-start gap-2.5">
+                  <span class="text-pastelPink-400 font-bold">01.</span>
+                  <span>Hoa tươi dễ héo, dập hoặc hư hỏng nếu không được bảo quản đúng cách.</span>
+                </li>
+                <li class="p-3 rounded-xl bg-white/85 border border-pastelPink-200/60 flex items-start gap-2.5">
+                  <span class="text-pastelPink-400 font-bold">02.</span>
+                  <span>Giá nhập hoa có thể tăng vào những dịp lễ, Tết.</span>
+                </li>
+                <li class="p-3 rounded-xl bg-white/85 border border-pastelPink-200/60 flex items-start gap-2.5">
+                  <span class="text-pastelPink-400 font-bold">03.</span>
+                  <span>Có nhiều cửa hàng hoa cạnh tranh về giá cả và mẫu mã.</span>
+                </li>
+                <li class="p-3 rounded-xl bg-white/85 border border-pastelPink-200/60 flex items-start gap-2.5">
+                  <span class="text-pastelPink-400 font-bold">04.</span>
+                  <span>Lượng khách mua hoa có thể không ổn định giữa ngày thường và ngày lễ.</span>
+                </li>
+                <li class="p-3 rounded-xl bg-white/85 border border-pastelPink-200/60 flex items-start gap-2.5">
+                  <span class="text-pastelPink-400 font-bold">05.</span>
+                  <span>Một số mẫu hoa nhập về có thể không bán được hoặc không còn phù hợp với thị hiếu khách hàng (sản phẩm tồn kho).</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Cột 2: Biện pháp xử lí -->
+            <div class="luxury-card rounded-3xl p-5 sm:p-6 bg-gradient-to-b from-sage-50/90 to-white border-sage-300/70 reveal delay-3">
+              <div class="flex items-center gap-3 pb-3 mb-4 border-b border-sage-200">
+                <span class="w-10 h-10 rounded-2xl bg-sage-200 text-charcoal flex items-center justify-center font-bold">✓</span>
+                <div>
+                  <p class="text-[11px] uppercase tracking-wider text-sage-600 font-bold">Giải pháp chủ động</p>
+                  <h3 class="font-serif text-2xl font-bold text-charcoal">Biện Pháp Xử Lí</h3>
+                </div>
+              </div>
+
+              <ul class="space-y-2.5 text-xs sm:text-sm text-charcoal">
+                <li class="p-2.5 rounded-xl bg-white/85 border border-sage-200/70 flex items-start gap-2.5">
+                  <span class="text-sage-600 font-bold">01.</span>
+                  <span>Lựa chọn nhà cung cấp uy tín, kiểm tra chất lượng hoa trước khi nhập.</span>
+                </li>
+                <li class="p-2.5 rounded-xl bg-white/85 border border-sage-200/70 flex items-start gap-2.5">
+                  <span class="text-sage-600 font-bold">02.</span>
+                  <span>Bảo quản hoa tươi đúng cách và nhập hàng theo nhu cầu thực tế.</span>
+                </li>
+                <li class="p-2.5 rounded-xl bg-white/85 border border-sage-200/70 flex items-start gap-2.5">
+                  <span class="text-sage-600 font-bold">03.</span>
+                  <span>Đa dạng hóa các loại hoa để không phụ thuộc vào một dòng sản phẩm.</span>
+                </li>
+                <li class="p-2.5 rounded-xl bg-white/85 border border-sage-200/70 flex items-start gap-2.5">
+                  <span class="text-sage-600 font-bold">04.</span>
+                  <span>Thường xuyên cập nhật mẫu mã, xây dựng giá bán hợp lí để tăng khả năng cạnh tranh.</span>
+                </li>
+                <li class="p-2.5 rounded-xl bg-white/85 border border-sage-200/70 flex items-start gap-2.5">
+                  <span class="text-sage-600 font-bold">05.</span>
+                  <span>Đẩy mạnh quảng cáo trên mạng xã hội, nhận đặt hoa trước vào các dịp lễ để hạn chế hàng tồn.</span>
+                </li>
+                <li class="p-2.5 rounded-xl bg-white/85 border border-sage-200/70 flex items-start gap-2.5">
+                  <span class="text-sage-600 font-bold">06.</span>
+                  <span>Quản lí thu chi chặt chẽ và dự phòng một khoản vốn để giải quyết những tình huống phát sinh.</span>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 10: KẾT LUẬN ==================== -->
+    <section class="slide" data-title="10. Kết luận – ONE TEAM, ONE FLOWER WORLD">
+      <div class="relative w-full h-full overflow-y-auto slide-scroll pt-16 pb-20 px-5 sm:px-10 flex items-center justify-center">
+        <!-- Hình nền vườn hoa rực rỡ phủ sương mờ sang trọng -->
+        <div class="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1600&q=80" 
+            alt="Vườn hoa rực rỡ ONE FLOWER"
+            onerror="this.src='https://placehold.co/1600x900/FADADD/2C3531?text=ONE+FLOWER+GARDEN'"
+            class="w-full h-full object-cover opacity-30"
+          />
+          <div class="absolute inset-0 bg-gradient-to-b from-cream-50/85 via-cream-50/75 to-pastelPink-100/85 backdrop-blur-[2px]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto w-full text-center space-y-6">
+          <div class="reveal delay-1">
+            <span class="px-4 py-1.5 rounded-full bg-white/90 border border-champagne-400/50 text-xs font-bold tracking-[0.25em] uppercase text-champagne-600 shadow-xs">
+              Tổng Kết Kế Hoạch Kinh Doanh
+            </span>
+            <h2 class="font-serif text-4xl sm:text-6xl font-bold text-charcoal mt-3">
+              KẾT LUẬN
+            </h2>
+          </div>
+
+          <div class="luxury-card rounded-3xl p-6 sm:p-8 text-left sm:text-center space-y-4 reveal delay-2 border-champagne-400/60">
+            <p class="text-sm sm:text-lg text-charcoal leading-relaxed">
+              Ý tưởng kinh doanh cửa hàng hoa <strong class="text-champagne-600">ONE FLOWER</strong> là mô hình có <strong>tính sáng tạo và thiết thực</strong>. Với nhiều loại hoa, mẫu mã phong phú, giá cả hợp lí và dịch vụ thiết kế theo yêu cầu, cửa hàng có thể đáp ứng nhu cầu của nhiều đối tượng khách hàng.
+            </p>
+            <p class="text-sm sm:text-base text-charcoal/90 leading-relaxed">
+              Nếu biết quản lí nguồn vốn, bảo quản sản phẩm và xây dựng chiến lược kinh doanh phù hợp, <strong>ONE FLOWER</strong> có thể phát triển ổn định và mang lại lợi nhuận bền vững.
+            </p>
+            <p class="text-xs text-sage-600 italic pt-2 border-t border-champagne-400/25">
+              Lưu ý: Vốn, giá bán và số lượng đơn hàng là số liệu dự kiến phục vụ bài lập kế hoạch kinh doanh; khi triển khai thực tế cần khảo sát và điều chỉnh.
+            </p>
+          </div>
+
+          <!-- Slogan lớn -->
+          <div class="reveal delay-3 py-2">
+            <h3 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold champagne-gradient-text champagne-glow tracking-wide">
+              “ONE TEAM, ONE FLOWER WORLD.”
+            </h3>
+            <p class="font-serif italic text-lg sm:text-2xl text-sage-600 mt-1">
+              Một tập thể – Một thế giới hoa.
+            </p>
+          </div>
+
+          <!-- Lời cảm ơn & Nút xem lại -->
+          <div class="reveal delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <p class="text-sm font-medium text-charcoal bg-white/85 px-5 py-2.5 rounded-full border border-pastelPink-300/60">
+              Cảm ơn Thầy/Cô và các bạn đã lắng nghe bài thuyết trình của <strong>Nhóm 1</strong>!
+            </p>
+            <button onclick="goToSlide(0)" class="px-5 py-2.5 rounded-full bg-charcoal text-cream-50 text-sm font-medium hover:bg-sage-600 transition shadow-md flex items-center gap-2">
+              <svg class="w-4 h-4 text-champagne-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>Xem lại từ đầu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- THANH ĐIỀU HƯỚNG DƯỚI CÙNG (SLIDE DOTS + PREVIOUS / NEXT)              -->
+  <!-- ===================================================================== -->
+  <footer class="fixed bottom-3 left-4 right-4 sm:left-8 sm:right-8 z-40 flex items-center justify-between pointer-events-none">
+    <!-- Tên slide hiện tại (ẩn trên mobile rất nhỏ) -->
+    <div class="pointer-events-auto hidden md:flex items-center gap-2 bg-white/85 backdrop-blur-md px-4 py-2 rounded-full border border-champagne-400/30 shadow-sm">
+      <span id="slideCounterBadge" class="font-serif font-bold text-sm text-champagne-600">01 / 10</span>
+      <span class="text-champagne-400">•</span>
+      <span id="currentSlideLabel" class="text-xs font-medium text-charcoal truncate max-w-[240px]">01. Trang bìa – ONE FLOWER</span>
+    </div>
+
+    <!-- Chấm điều hướng trung tâm -->
+    <div id="slideDots" class="pointer-events-auto flex items-center gap-1.5 bg-white/85 backdrop-blur-md px-3 py-2 rounded-full border border-champagne-400/30 shadow-sm mx-auto md:mx-0">
+      <!-- Render bằng JS -->
+    </div>
+
+    <!-- Nút Previous / Next -->
+    <div class="pointer-events-auto flex items-center gap-2">
+      <button id="prevBtn" onclick="prevSlide()" aria-label="Slide trước" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/90 backdrop-blur-md border border-champagne-400/40 text-xs font-semibold text-charcoal hover:bg-pastelPink-100/60 disabled:opacity-40 disabled:pointer-events-none transition shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span class="hidden sm:inline">Previous</span>
+      </button>
+
+      <button id="nextBtn" onclick="nextSlide()" aria-label="Slide tiếp theo" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-charcoal text-cream-50 text-xs font-semibold hover:bg-sage-600 disabled:opacity-40 disabled:pointer-events-none transition shadow-md">
+        <span class="hidden sm:inline">Next</span>
+        <span class="sm:hidden font-serif" id="mobileCounter">01/10</span>
+        <svg class="w-4 h-4 text-champagne-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT XỬ LÝ SLIDE, HIỆU ỨNG ĐẾM SỐ, PARALLAX & CÁNH HOA RƠI       -->
+  <!-- ===================================================================== -->
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const progressBar = document.getElementById('progressBar');
+    const slideDotsContainer = document.getElementById('slideDots');
+    const tocListContainer = document.getElementById('tocList');
+    const slideCounterBadge = document.getElementById('slideCounterBadge');
+    const mobileCounter = document.getElementById('mobileCounter');
+    const currentSlideLabel = document.getElementById('currentSlideLabel');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Khởi tạo dots và danh mục mục lục
+    function initNavigation() {
+      slideDotsContainer.innerHTML = '';
+      tocListContainer.innerHTML = '';
+
+      slides.forEach((slide, index) => {
+        const title = slide.getAttribute('data-title') || `Slide ${index + 1}`;
+
+        // Tạo dot điều hướng
+        const dot = document.createElement('button');
+        dot.setAttribute('aria-label', title);
+        dot.title = title;
+        dot.className = `h-2 rounded-full transition-all duration-300 ${
+          index === 0 ? 'w-6 bg-champagne-400' : 'w-2 bg-charcoal/25 hover:bg-pastelPink-400'
+        }`;
+        dot.onclick = () => goToSlide(index);
+        slideDotsContainer.appendChild(dot);
+
+        // Tạo item trong Drawer Mục lục
+        const tocBtn = document.createElement('button');
+        tocBtn.className = `w-full text-left px-4 py-3 rounded-2xl border transition flex items-center justify-between ${
+          index === 0
+            ? 'bg-pastelPink-100/70 border-champagne-400 text-charcoal font-semibold'
+            : 'bg-white/80 border-champagne-400/20 text-charcoal/85 hover:bg-cream-100'
+        }`;
+        tocBtn.innerHTML = `
+          <span class="text-sm">${title}</span>
+          <span class="text-xs font-serif text-champagne-600">→</span>
+        `;
+        tocBtn.onclick = () => {
+          goToSlide(index);
+          toggleDrawer(false);
+        };
+        tocListContainer.appendChild(tocBtn);
+      });
+    }
+
+    // Hiệu ứng đếm số tăng dần (Count-up) khi slide được kích hoạt
+    function animateNumbersInSlide(slideEl) {
+      const counters = slideEl.querySelectorAll('.count-up, .count-up-price');
+      counters.forEach((counter) => {
+        const target = parseInt(counter.getAttribute('data-target'), 10);
+        if (isNaN(target)) return;
+
+        const duration = 900;
+        const startTime = performance.now();
+
+        function update(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out cubic
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const currentVal = Math.round(eased * target);
+          counter.textContent = currentVal;
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = target;
+          }
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Chuyển đến slide bất kỳ
+    function goToSlide(index) {
+      if (index < 0 || index >= totalSlides) return;
+      currentSlide = index;
+
+      slides.forEach((slide, idx) => {
+        if (idx === currentSlide) {
+          slide.classList.add('active');
+          // Reset scroll bên trong slide nếu có
+          const scrollBox = slide.querySelector('.slide-scroll');
+          if (scrollBox) scrollBox.scrollTop = 0;
+          animateNumbersInSlide(slide);
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Cập nhật thanh tiến độ
+      const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Cập nhật nhãn & bộ đếm
+      const formattedCurrent = String(currentSlide + 1).padStart(2, '0');
+      const formattedTotal = String(totalSlides).padStart(2, '0');
+      slideCounterBadge.textContent = `${formattedCurrent} / ${formattedTotal}`;
+      mobileCounter.textContent = `${formattedCurrent}/${formattedTotal}`;
+      currentSlideLabel.textContent = slides[currentSlide].getAttribute('data-title');
+
+      // Cập nhật trạng thái nút Previous / Next
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+
+      // Cập nhật dots
+      const dots = slideDotsContainer.querySelectorAll('button');
+      dots.forEach((dot, idx) => {
+        dot.className = `h-2 rounded-full transition-all duration-300 ${
+          idx === currentSlide ? 'w-6 bg-champagne-400' : 'w-2 bg-charcoal/25 hover:bg-pastelPink-400'
+        }`;
+      });
+
+      // Cập nhật active trong Drawer Mục lục
+      const tocBtns = tocListContainer.querySelectorAll('button');
+      tocBtns.forEach((btn, idx) => {
+        btn.className = `w-full text-left px-4 py-3 rounded-2xl border transition flex items-center justify-between ${
+          idx === currentSlide
+            ? 'bg-pastelPink-100/70 border-champagne-400 text-charcoal font-semibold'
+            : 'bg-white/80 border-champagne-400/20 text-charcoal/85 hover:bg-cream-100'
+        }`;
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) goToSlide(currentSlide - 1);
+    }
+
+    // Bật/Tắt Drawer Mục lục
+    function toggleDrawer(forceState) {
+      const drawer = document.getElementById('tocDrawer');
+      if (typeof forceState === 'boolean') {
+        drawer.classList.toggle('hidden', !forceState);
+      } else {
+        drawer.classList.toggle('hidden');
+      }
+    }
+
+    // Chế độ Toàn màn hình (Fullscreen)
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    }
+
+    // Điều khiển bằng bàn phím
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        // Tránh cuộn trang khi nhấn Space nếu không ở trong input
+        if (e.target.tagName !== 'BUTTON') e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'Escape') {
+        toggleDrawer(false);
+      }
+    });
+
+    // Hỗ trợ vuốt ngang (Swipe) trên màn hình cảm ứng điện thoại / tablet
+    let touchStartX = 0;
+    let touchStartY = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+      const deltaX = e.changedTouches[0].screenX - touchStartX;
+      const deltaY = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(deltaX) > 65 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+        if (deltaX < 0) nextSlide();
+        else prevSlide();
+      }
+    }, { passive: true });
+
+    // Hiệu ứng Parallax nhẹ ở Slide 1
+    const heroParallax = document.getElementById('heroParallax');
+    document.addEventListener('mousemove', (e) => {
+      if (currentSlide !== 0 || !heroParallax) return;
+      const x = (window.innerWidth / 2 - e.clientX) / 45;
+      const y = (window.innerHeight / 2 - e.clientY) / 45;
+      heroParallax.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    });
+
+    // =====================================================================
+    // CANVAS HIỆU ỨNG CÁNH HOA RƠI NHẸ NHÀNG
+    // =====================================================================
+    const canvas = document.getElementById('petalCanvas');
+    const ctx = canvas.getContext('2d');
+    let petalsEnabled = true;
+    let petals = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const petalColors = [
+      'rgba(250, 218, 221, 0.72)', // Hồng pastel
+      'rgba(247, 202, 201, 0.65)', // Rose quartz
+      'rgba(253, 251, 247, 0.85)', // Trắng kem
+      'rgba(243, 229, 171, 0.55)'  // Vàng champagne nhạt
+    ];
+
+    class Petal {
+      constructor() {
+        this.reset(true);
+      }
+      reset(initial = false) {
+        this.x = Math.random() * canvas.width;
+        this.y = initial ? Math.random() * canvas.height : -20;
+        this.size = 6 + Math.random() * 8;
+        this.speedY = 0.55 + Math.random() * 0.85;
+        this.speedX = -0.4 + Math.random() * 0.8;
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = (Math.random() - 0.5) * 0.025;
+        this.swayOffset = Math.random() * 100;
+        this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX + Math.sin((this.y + this.swayOffset) * 0.012) * 0.45;
+        this.angle += this.spin;
+        if (this.y > canvas.height + 20 || this.x < -30 || this.x > canvas.width + 30) {
+          this.reset(false);
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        // Hình dáng cánh hoa mềm mại
+        ctx.moveTo(0, -this.size);
+        ctx.bezierCurveTo(this.size, -this.size * 0.6, this.size * 0.9, this.size * 0.7, 0, this.size);
+        ctx.bezierCurveTo(-this.size * 0.9, this.size * 0.7, -this.size, -this.size * 0.6, 0, -this.size);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function initPetals() {
+      const count = window.innerWidth < 640 ? 14 : 24;
+      petals = Array.from({ length: count }, () => new Petal());
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (petalsEnabled) {
+        petals.forEach((petal) => {
+          petal.update();
+          petal.draw();
+        });
+      }
+      requestAnimationFrame(animatePetals);
+    }
+
+    function togglePetals() {
+      petalsEnabled = !petalsEnabled;
+      const dot = document.getElementById('petalStatusDot');
+      if (petalsEnabled) {
+        dot.classList.remove('bg-charcoal/30');
+        dot.classList.add('bg-pastelPink-400', 'animate-pulse');
+      } else {
+        dot.classList.remove('bg-pastelPink-400', 'animate-pulse');
+        dot.classList.add('bg-charcoal/30');
+      }
+    }
+
+    // Khởi chạy toàn bộ ứng dụng khi tải trang xong
+    window.onload = function () {
+      initNavigation();
+      goToSlide(0);
+      initPetals();
+      animatePetals();
+    };
+  </script>
+</body>
+</html>
